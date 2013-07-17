@@ -13,7 +13,7 @@ PUPPET_VERSION=2.7.21
 
 PUPPET_DIR=$OPENSHIFT_PUPPET_DIR
 
-for x in bin lib man log etc; do 
+for x in bin lib man log etc var; do 
   if [ ! -d $PUPPET_DIR/$x ]; then
     mkdir -p $PUPPET_DIR/$x
   fi
