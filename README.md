@@ -5,12 +5,11 @@ An experimental puppet cartridge for OpenShift.  Currently this downloads
 facter and puppet, installs them, and attempts to set up a working puppet
 config.
 
-== Current usage ==
+Current usage
+-------------
 
-* `rhc cartridge add -a _your-app-name_`
+* `rhc cartridge add "http://cartreflect-claytondev.rhcloud.com/reflect?github=a13m/openshift-puppet-cartridge" -a _your-app-name_`
 * `rhc ssh`
-* `export PATH=$OPENSHIFT_PUPPET_DIR/bin:$PATH`
-* `export RUBYLIB=$OPENSHIFT_PUPPET_DIR/lib`
 * Test facter (some "Permission denied" warnings are normal):  `facter`
 * Test puppet:
 ```
