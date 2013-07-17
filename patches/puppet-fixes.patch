@@ -1,0 +1,11 @@
+diff -ur puppet-2.7.21/lib/puppet/indirector/facts/facter.rb lib/puppet/indirector/facts/facter.rb
+--- puppet-2.7.21/lib/puppet/indirector/facts/facter.rb	2013-03-11 13:29:25.000000000 -0400
++++ puppet-2.7.21/lib/puppet/indirector/facts/facter.rb	2013-07-17 13:10:59.000000000 -0400
+@@ -45,6 +45,7 @@
+         begin
+           Puppet.info "Loading facts in #{fqfile}"
+           Timeout::timeout(self.timeout) do
++            next if file =~ /ops_facts\.rb$/
+             load file
+           end
+         rescue SystemExit,NoMemoryError

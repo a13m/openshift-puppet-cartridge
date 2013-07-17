@@ -1,0 +1,43 @@
+diff -ur facter-1.7.2/lib/facter/util/ip.rb facter-1.7.2/lib/facter/util/ip.rb
+--- facter-1.7.2/lib/facter/util/ip.rb	2013-07-08 20:17:37.000000000 -0400
++++ facter-1.7.2/lib/facter/util/ip.rb	2013-07-17 13:13:40.000000000 -0400
+@@ -122,8 +122,8 @@
+   def self.get_infiniband_macaddress(interface)
+     if File.exists?("/sys/class/net/#{interface}/address") then
+       ib_mac_address = `cat /sys/class/net/#{interface}/address`.chomp
+-    elsif File.exists?("/sbin/ip") then
+-      ip_output = %x{/sbin/ip link show #{interface}}
++    elsif File.exists?("#{ENV['OPENSHIFT_PUPPET_DIR']}/bin/ip") then
++      ip_output = %x{#{ENV['OPENSHIFT_PUPPET_DIR']}/bin/ip link show #{interface}}
+       ib_mac_address = ip_output.scan(%r{infiniband\s+((\w{1,2}:){5,}\w{1,2})})
+     else
+       ib_mac_address = "FF:FF:FF:FF:FF:FF:FF:FF:FF:FF:FF:FF:FF:FF:FF:FF:FF:FF:FF:FF"
+@@ -186,7 +186,7 @@
+     end
+     # We need ip instead of ifconfig because it will show us
+     # the bonding master device.
+-    if not FileTest.executable?("/sbin/ip")
++    if not FileTest.executable?("#{ENV['OPENSHIFT_PUPPET_DIR']}/bin/ip")
+       return nil
+     end
+     # A bonding interface can never be an alias interface. Alias
+@@ -197,7 +197,7 @@
+       return nil
+     end
+     regex = /SLAVE[,>].* (bond[0-9]+)/
+-      ethbond = regex.match(%x{/sbin/ip link show #{interface}})
++      ethbond = regex.match(%x{#{ENV['OPENSHIFT_PUPPET_DIR']}/bin/ip link show #{interface}})
+     if ethbond
+       device = ethbond[1]
+     else
+diff -ur facter-1.7.2/lib/facter/util/loader.rb facter-1.7.2/lib/facter/util/loader.rb
+--- facter-1.7.2/lib/facter/util/loader.rb	2013-07-08 20:17:37.000000000 -0400
++++ facter-1.7.2/lib/facter/util/loader.rb	2013-07-17 11:06:20.000000000 -0400
+@@ -43,6 +43,7 @@
+         if File.directory?(path)
+           load_dir(path)
+         elsif file =~ /\.rb$/
++          next if file =~ /ops_facts\.rb$/
+           load_file(File.join(dir, file))
+         end
+       end

@@ -1,0 +1,13 @@
+Name: puppet
+Cartridge-Short-Name: puppet
+Display-Name: Puppet
+Version: "2.7.21"
+Website: https://github.com/a13m/openshift-puppet-cartridge
+Cartridge-Version: 0.0.1
+Cartridge-Vendor: a13m
+Categories:
+  - service
+  - embedded
+  - domain_scope
+Provides:
+  - puppet

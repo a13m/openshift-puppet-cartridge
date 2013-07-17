@@ -1,0 +1,56 @@
+#!/bin/bash
+
+# XXX: Version is currently ignored
+case "$1" in
+  -v|--version)
+    version="$2"
+esac
+
+source $OPENSHIFT_CARTRIDGE_SDK_BASH
+
+FACTER_VERSION=1.7.2
+PUPPET_VERSION=2.7.21
+
+PUPPET_DIR=$OPENSHIFT_PUPPET_DIR
+
+for x in bin lib man log etc; do 
+  if [ ! -d $PUPPET_DIR/$x ]; then
+    mkdir -p $PUPPET_DIR/$x
+  fi
+done
+
+if [ ! -d $OPENSHIFT_DATA_DIR/tmp ]; then
+  mkdir $OPENSHIFT_DATA_DIR/tmp
+fi
+pushd $OPENSHIFT_DATA_DIR/tmp
+
+wget -nd https://github.com/puppetlabs/facter/archive/${FACTER_VERSION}.tar.gz
+tar xf ${FACTER_VERSION}
+wget -nd https://github.com/puppetlabs/puppet/archive/${PUPPET_VERSION}.tar.gz;
+tar xf ${PUPPET_VERSION}
+
+pushd facter-${FACTER_VERSION}
+patch -p1 < $OPENSHIFT_PUPPET_DIR/patches/facter-fixes.patch
+./install.rb --bindir=$PUPPET_DIR/bin \
+             --sitelibdir=$PUPPET_DIR/lib \
+             --mandir=$PUPPET_DIR/man
+popd
+
+pushd puppet-${PUPPET_VERSION}
+patch -p1 < $OPENSHIFT_PUPPET_DIR/patches/puppet-fixes.patch
+./install.rb --bindir=$PUPPET_DIR/bin \
+             --sitelibdir=$PUPPET_DIR/lib \
+             --mandir=$PUPPET_DIR/man \
+             --sbindir=$PUPPET_DIR/sbin \
+             --configdir=$PUPPET_DIR/etc \
+popd
+
+popd
+
+mkdir $OPENSHIFT_HOMEDIR/.puppet
+export PATH=$PUPPET_DIR/bin:$PATH
+export RUBYLIB=$PUPPET_DIR/lib
+puppet --vardir=$PUPPET_DIR/var \
+       --ssldir=$PUPPET_DIR/var/ssl \
+       --confdir=$PUPPET_DIR/etc \
+       --genconfig > $OPENSHIFT_HOMEDIR/.puppet/puppet.conf
