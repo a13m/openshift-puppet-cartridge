@@ -10,8 +10,9 @@ Current usage
 
 * `rhc cartridge add "http://cartreflect-claytondev.rhcloud.com/reflect?github=a13m/openshift-puppet-cartridge" -a _your-app-name_`
 * `rhc ssh`
-* Test facter (some "Permission denied" warnings are normal):  `facter`
+* Test facter (some "Permission denied" warnings on /dev/mem and /proc/net/arp are normal):  `facter`
 * Test puppet:
+
 ```
 cd app-root/data/
 cat <<EOF >foo.pp
