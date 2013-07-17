@@ -2,8 +2,12 @@
 locked_files:
 - bin/
 - bin/*
+- sbin/
+- sbin/*
 - metadata/
 - metadata/*
+- patches/
+- patches/*
 - env/
 - env/*
 - etc/
