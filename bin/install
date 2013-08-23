@@ -52,6 +52,7 @@ export PATH=$PUPPET_DIR/bin:$PATH
 export RUBYLIB=$PUPPET_DIR/lib
 puppet --vardir=$PUPPET_DIR/var \
        --ssldir=$PUPPET_DIR/var/ssl \
+       --templatedir=$OPENSHIFT_REPO_DIR/.openshift/puppet/templates
        --confdir=$PUPPET_DIR/etc \
        --genconfig > $OPENSHIFT_HOMEDIR/.puppet/puppet.conf
 
