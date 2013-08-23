@@ -8,6 +8,5 @@ Cartridge-Vendor: a13m
 Categories:
   - service
   - embedded
-  - domain_scope
 Provides:
   - puppet
