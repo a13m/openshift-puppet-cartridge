@@ -50,9 +50,9 @@ popd
 mkdir $OPENSHIFT_HOMEDIR/.puppet
 export PATH=$PUPPET_DIR/bin:$PATH
 export RUBYLIB=$PUPPET_DIR/lib
-puppet --vardir=$PUPPET_DIR/var \
-       --ssldir=$PUPPET_DIR/var/ssl \
+puppet --vardir=$OPENSHIFT_DATA_DIR/puppet \
+       --ssldir=$OPENSHIFT_DATA_DIR/puppet/ssl \
        --templatedir=$OPENSHIFT_REPO_DIR/.openshift/puppet/templates \
-       --confdir=$PUPPET_DIR/etc \
+       --confdir=$OPENSHIFT_REPO_DIR/.openshift/puppet \
        --genconfig > $OPENSHIFT_HOMEDIR/.puppet/puppet.conf
 
