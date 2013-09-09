@@ -25,9 +25,9 @@ fi
 pushd $OPENSHIFT_DATA_DIR/tmp
 
 wget -nd https://github.com/puppetlabs/facter/archive/${FACTER_VERSION}.tar.gz
-tar xf ${FACTER_VERSION}
+tar xzf ${FACTER_VERSION}.tar.gz
 wget -nd https://github.com/puppetlabs/puppet/archive/${PUPPET_VERSION}.tar.gz;
-tar xf ${PUPPET_VERSION}
+tar xzf ${PUPPET_VERSION}.tar.gz
 
 pushd facter-${FACTER_VERSION}
 patch -p1 < $OPENSHIFT_PUPPET_DIR/patches/facter-fixes.patch
