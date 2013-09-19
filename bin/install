@@ -24,9 +24,9 @@ if [ ! -d $OPENSHIFT_DATA_DIR/tmp ]; then
 fi
 pushd $OPENSHIFT_DATA_DIR/tmp
 
-wget -nd https://github.com/puppetlabs/facter/archive/${FACTER_VERSION}.tar.gz
+curl -L -o ${FACTER_VERSION}.tar.gz https://github.com/puppetlabs/facter/archive/${FACTER_VERSION}.tar.gz
 tar xzf ${FACTER_VERSION}.tar.gz
-wget -nd https://github.com/puppetlabs/puppet/archive/${PUPPET_VERSION}.tar.gz;
+curl -L -o ${PUPPET_VERSION}.tar.gz https://github.com/puppetlabs/puppet/archive/${PUPPET_VERSION}.tar.gz;
 tar xzf ${PUPPET_VERSION}.tar.gz
 
 pushd facter-${FACTER_VERSION}
